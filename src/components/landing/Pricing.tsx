@@ -1,10 +1,14 @@
+
 import React from "react";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
+import { motion } from "framer-motion";
 
 interface PricingPlanProps {
   price: string;
   features: string[];
   bestFor: string;
   buttonText: string;
+  index: number;
 }
 
 const PricingPlan: React.FC<PricingPlanProps> = ({
@@ -12,28 +16,60 @@ const PricingPlan: React.FC<PricingPlanProps> = ({
   features,
   bestFor,
   buttonText,
+  index
 }) => {
   return (
-    <div className="bg-[rgba(158,158,158,0.13)] border flex w-full flex-col text-xl text-white font-bold leading-[1.4] mx-auto pt-[103px] pb-[29px] px-[29px] rounded-[10px] border-white border-solid max-md:mt-6 max-md:pt-[100px] max-md:px-5">
-      <div className="text-5xl font-normal leading-none max-md:text-[40px] max-md:ml-1.5">
-        {price}
-      </div>
-      <div className="border self-stretch shrink-0 h-0 mt-[43px] border-white border-solid max-md:mt-10" />
-
-      {features.map((feature, index) => (
-        <div key={index} className="ml-9 mt-[23px] max-md:ml-2.5">
-          {feature}
+    <AnimateOnScroll animation="slideUp" delay={0.2 * index}>
+      <motion.div 
+        whileHover={{ y: -10 }}
+        transition={{ duration: 0.3 }}
+        className="bg-[rgba(158,158,158,0.13)] border h-full flex flex-col text-xl text-white font-bold leading-relaxed mx-auto pt-16 pb-8 px-8 rounded-xl border-white border-solid shadow-lg hover:shadow-xl transition-shadow"
+      >
+        <div className="text-4xl md:text-5xl font-normal leading-none">
+          {price}
         </div>
-      ))}
+        <div className="border-t w-full my-8 border-white border-solid" />
 
-      <div className="text-2xl leading-none mt-[41px] max-md:mt-10">
-        Best for - {bestFor}
-      </div>
+        <ul className="space-y-5 flex-grow">
+          {features.map((feature, idx) => (
+            <motion.li
+              key={idx}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 * idx, duration: 0.3 }}
+              viewport={{ once: true }}
+              className="flex items-center"
+            >
+              <svg
+                className="w-5 h-5 text-[rgba(231,27,75,1)] mr-3 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              {feature}
+            </motion.li>
+          ))}
+        </ul>
 
-      <button className="self-stretch bg-[rgba(231,27,75,1)] gap-2.5 mt-[135px] px-[120px] py-2.5 rounded-md max-md:mt-10 max-md:px-5">
-        {buttonText}
-      </button>
-    </div>
+        <div className="text-2xl mt-8">
+          Best for - {bestFor}
+        </div>
+
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="mt-10 self-stretch bg-[rgba(231,27,75,1)] hover:bg-[rgba(231,27,75,0.9)] transition-colors gap-2.5 py-3 px-8 rounded-md text-center font-bold"
+        >
+          {buttonText}
+        </motion.button>
+      </motion.div>
+    </AnimateOnScroll>
   );
 };
 
@@ -77,28 +113,35 @@ const Pricing: React.FC = () => {
   ];
 
   return (
-    <section className="bg-neutral-800 self-stretch flex w-full flex-col items-center mt-[88px] pt-[60px] pb-[199px] px-[70px] max-md:max-w-full max-md:mt-10 max-md:pb-[100px] max-md:px-5">
-      <h2 className="text-white text-[28px] font-extrabold leading-none tracking-[-0.28px] text-center max-md:max-w-full">
-        INVEST IN YOUR STRONGEST SELF
-      </h2>
-      <p className="text-white text-xl font-medium leading-[1.4] mt-3 max-md:max-w-full">
-        No hidden fees. Cancel anytime. Results guaranteed
-      </p>
-      <div className="text-white text-[160px] font-extrabold mt-11 max-md:max-w-full max-md:text-[40px] max-md:mt-10">
-        PRICING
-      </div>
+    <section className="bg-neutral-800 w-full py-16 md:py-24 lg:py-32">
+      <div className="container mx-auto px-4">
+        <AnimateOnScroll animation="fadeIn">
+          <h2 className="text-white text-2xl md:text-3xl font-extrabold leading-none tracking-[-0.28px] text-center">
+            INVEST IN YOUR STRONGEST SELF
+          </h2>
+          <p className="text-white text-lg md:text-xl font-medium leading-relaxed text-center mt-4 max-w-2xl mx-auto">
+            No hidden fees. Cancel anytime. Results guaranteed
+          </p>
+        </AnimateOnScroll>
 
-      <div className="self-stretch -mb-10 max-md:max-w-full max-md:mb-2.5">
-        <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
-          {pricingPlans.map((plan, index) => (
-            <div key={index} className="w-[33%] max-md:w-full max-md:ml-0">
-              <PricingPlan
-                price={plan.price}
-                features={plan.features}
-                bestFor={plan.bestFor}
-                buttonText={plan.buttonText}
-              />
+        <AnimateOnScroll animation="scaleUp" delay={0.3}>
+          <div className="relative">
+            <div className="text-white text-6xl md:text-8xl lg:text-[160px] font-extrabold text-center my-16 opacity-60">
+              PRICING
             </div>
+          </div>
+        </AnimateOnScroll>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {pricingPlans.map((plan, index) => (
+            <PricingPlan
+              key={index}
+              price={plan.price}
+              features={plan.features}
+              bestFor={plan.bestFor}
+              buttonText={plan.buttonText}
+              index={index}
+            />
           ))}
         </div>
       </div>

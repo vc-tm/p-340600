@@ -1,32 +1,54 @@
+
 import React from "react";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
+import { motion } from "framer-motion";
 
 interface ProgramCardProps {
   image: string;
   title: string;
   description: string;
+  index: number;
 }
 
 const ProgramCard: React.FC<ProgramCardProps> = ({
   image,
   title,
   description,
+  index
 }) => {
   return (
-    <div className="flex flex-col relative aspect-[0.786] grow text-xl tracking-[-0.2px] max-md:mt-[18px]">
-      <img
-        src={image}
-        className="absolute h-full w-full object-cover inset-0"
-        alt={title}
-      />
-      <div className="relative flex flex-col items-stretch pt-[428px] pb-[34px] px-8 max-md:pt-[100px] max-md:px-5">
-        <h3 className="text-[rgba(237,237,237,1)] font-extrabold leading-none self-center">
-          {title}
-        </h3>
-        <p className="text-white font-medium leading-[21px] text-center mt-[7px]">
-          {description}
-        </p>
-      </div>
-    </div>
+    <AnimateOnScroll 
+      animation="fadeIn" 
+      delay={0.2 * index} 
+      className="h-full"
+    >
+      <motion.div 
+        whileHover={{ scale: 1.03, y: -5 }}
+        transition={{ duration: 0.3 }}
+        className="flex flex-col relative aspect-[0.786] h-full overflow-hidden rounded-lg shadow-lg"
+      >
+        <img
+          src={image}
+          className="absolute h-full w-full object-cover inset-0 transition-transform duration-700 hover:scale-110"
+          alt={title}
+        />
+        <div className="relative flex flex-col items-stretch mt-auto bg-gradient-to-t from-black via-black/70 to-transparent pt-20 pb-8 px-8">
+          <h3 className="text-[rgba(237,237,237,1)] font-extrabold leading-none text-xl md:text-2xl text-center">
+            {title}
+          </h3>
+          <p className="text-white font-medium leading-relaxed text-base md:text-lg text-center mt-4">
+            {description}
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-6 bg-[rgba(231,27,75,1)] hover:bg-[rgba(231,27,75,0.9)] text-white font-bold py-2 px-6 rounded-md self-center transition-colors"
+          >
+            Learn More
+          </motion.button>
+        </div>
+      </motion.div>
+    </AnimateOnScroll>
   );
 };
 
@@ -71,39 +93,27 @@ const TrainingPrograms: React.FC = () => {
   ];
 
   return (
-    <section className="bg-neutral-800 self-stretch flex w-full flex-col items-stretch px-[74px] py-[111px] max-md:max-w-full max-md:pb-[100px] max-md:px-5">
-      <h2 className="text-white text-[32px] font-extrabold leading-none self-center max-md:max-w-full">
-        YOUR TRANSFORMATION STARTS HERE
-      </h2>
-      <p className="text-white text-xl font-medium leading-[1.4] self-center mt-[15px] max-md:max-w-full">
-        Tailored programs for every fitness level—from first-timers to elite
-        athletes.
-      </p>
+    <section className="bg-neutral-800 w-full py-16 md:py-24 lg:py-32">
+      <div className="container mx-auto px-4">
+        <AnimateOnScroll animation="slideUp">
+          <h2 className="text-white text-2xl md:text-3xl lg:text-4xl font-extrabold leading-none text-center">
+            YOUR TRANSFORMATION STARTS HERE
+          </h2>
+          <p className="text-white text-lg md:text-xl font-medium leading-relaxed text-center mt-4 max-w-3xl mx-auto">
+            Tailored programs for every fitness level—from first-timers to elite
+            athletes.
+          </p>
+        </AnimateOnScroll>
 
-      <div className="mt-[59px] max-md:max-w-full max-md:mt-10">
-        <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
-          {programs.slice(0, 3).map((program, index) => (
-            <div key={index} className="w-[33%] max-md:w-full max-md:ml-0">
-              <ProgramCard
-                image={program.image}
-                title={program.title}
-                description={program.description}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="mb-[-25px] mt-4 max-md:max-w-full max-md:mb-2.5">
-        <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
-          {programs.slice(3).map((program, index) => (
-            <div key={index} className="w-[33%] max-md:w-full max-md:ml-0">
-              <ProgramCard
-                image={program.image}
-                title={program.title}
-                description={program.description}
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-16">
+          {programs.map((program, index) => (
+            <ProgramCard
+              key={index}
+              image={program.image}
+              title={program.title}
+              description={program.description}
+              index={index}
+            />
           ))}
         </div>
       </div>

@@ -1,84 +1,123 @@
+
 import React from "react";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
+import { motion } from "framer-motion";
+
+interface CoachThumbnailProps {
+  image: string;
+  selected?: boolean;
+  onClick?: () => void;
+}
+
+const CoachThumbnail: React.FC<CoachThumbnailProps> = ({ image, selected, onClick }) => {
+  return (
+    <motion.div 
+      whileHover={{ y: -5 }}
+      whileTap={{ scale: 0.98 }}
+      className={`cursor-pointer overflow-hidden rounded-md ${selected ? 'border-2 border-[rgba(231,27,75,1)]' : ''}`}
+      onClick={onClick}
+    >
+      <img
+        src={image}
+        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+        alt="Coach thumbnail"
+      />
+    </motion.div>
+  );
+};
 
 const Coaches: React.FC = () => {
-  return (
-    <section className="mt-[69px] max-md:mt-10">
-      <h2 className="text-[rgba(40,40,40,1)] text-[28px] font-extrabold leading-none tracking-[-0.28px] text-center max-md:max-w-full">
-        MEET YOUR TACTICAL COACHING TEAM
-      </h2>
-      <p className="text-black text-xl font-medium leading-[1.4] mt-3 max-md:max-w-full">
-        World-class trainers who've been where you want to go.
-      </p>
+  const coaches = [
+    {
+      image: "https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/dae1c0461a4223c09e7b0ca0ca29957383a0da9c?placeholderIfAbsent=true",
+      name: "Jake Torrez",
+      specialty: "MMA Conditioning",
+      bio: "Former pro fighter with 12-3 record. Trained UFC athletes. No-nonsense approach."
+    },
+    {
+      image: "https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/e2f8b6f378f20864b0be3fcb004233ecfb35007e?placeholderIfAbsent=true",
+      name: "Sarah Mitchell",
+      specialty: "Strength & Conditioning",
+      bio: "Former Olympic weightlifter. Specializes in powerlifting and strength development."
+    },
+    {
+      image: "https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/97569c8877d5102c9028cbf76efb56ce8864f198?placeholderIfAbsent=true",
+      name: "Raj Patel",
+      specialty: "Functional Training",
+      bio: "Movement specialist with 8+ years experience. Teaches mobility and functional training."
+    },
+    {
+      image: "https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/cfd359b80f13df4268180234baf96c491d003db9?placeholderIfAbsent=true",
+      name: "Maria Rodriguez",
+      specialty: "HIIT & Conditioning",
+      bio: "Former pro athlete with expertise in metabolic conditioning and fat loss."
+    }
+  ];
 
-      <div className="w-full max-w-[1300px] mt-[59px] max-md:max-w-full max-md:mt-10">
-        <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
-          <div className="w-[52%] max-md:w-full max-md:ml-0">
-            <div className="flex flex-col relative min-h-[569px] w-full rounded-[0px_0px_0px_0px] max-md:max-w-full max-md:mt-6">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/dae1c0461a4223c09e7b0ca0ca29957383a0da9c?placeholderIfAbsent=true"
-                className="absolute h-full w-full object-cover inset-0"
-                alt="Coach Jake Torrez"
-              />
-              <div className="relative pt-2.5 pb-[30px] px-[17px] rounded-[98px_0px_0px_0px] max-md:max-w-full">
-                <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
-                  <div className="w-[45%] max-md:w-full max-md:ml-0">
-                    <div className="relative grow max-md:mt-10">
-                      <img
-                        src="https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/3bf9f959abe226f0e74075c8179d2fa2784c2f77?placeholderIfAbsent=true"
-                        className="aspect-[0.63] object-contain w-[25px]"
-                        alt="Quote icon"
-                      />
-                      <div className="flex flex-col items-stretch mt-[387px] pl-[9px] max-md:mt-10">
-                        <h3 className="text-[rgba(231,27,75,1)] text-2xl font-extrabold leading-none">
-                          Jake Torrez
-                        </h3>
-                        <p className="text-white text-base font-normal leading-7 mt-[46px] max-md:mt-10">
-                          MMA Conditioning
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-[55%] ml-5 max-md:w-full max-md:ml-0">
-                    <p className="text-white text-base font-normal leading-[19px] relative mt-[487px] max-md:mt-10">
-                      Former pro fighter with 12-3 record. Trained UFC athletes.
-                      No-nonsense approach.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-[16%] ml-5 max-md:w-full max-md:ml-0">
-            <div className="flex flex-col relative aspect-[0.344] w-[196px] grow max-md:mt-6">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/e2f8b6f378f20864b0be3fcb004233ecfb35007e?placeholderIfAbsent=true"
-                className="absolute h-full w-full object-cover inset-0"
-                alt="Coach thumbnail"
-              />
-              <div className="relative flex flex-col pt-2 pb-[521px] px-[39px] max-md:pl-5 max-md:pb-[100px]">
+  return (
+    <section className="container mx-auto px-4 py-16 md:py-24 lg:py-32">
+      <AnimateOnScroll animation="slideUp">
+        <h2 className="text-[rgba(40,40,40,1)] text-2xl md:text-3xl font-extrabold leading-none tracking-[-0.28px] text-center">
+          MEET YOUR TACTICAL COACHING TEAM
+        </h2>
+        <p className="text-black text-lg md:text-xl font-medium leading-relaxed text-center mt-4 max-w-3xl mx-auto">
+          World-class trainers who've been where you want to go.
+        </p>
+      </AnimateOnScroll>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8 mt-16">
+        <AnimateOnScroll animation="slideInLeft" className="md:col-span-2">
+          <div className="relative rounded-lg overflow-hidden h-full max-h-[600px]">
+            <img
+              src={coaches[0].image}
+              className="w-full h-full object-cover"
+              alt={`Coach ${coaches[0].name}`}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+              <div className="flex flex-col">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/3bf9f959abe226f0e74075c8179d2fa2784c2f77?placeholderIfAbsent=true"
-                  className="aspect-[0.63] object-contain w-[25px] mb-[-104px] max-md:mb-2.5"
+                  className="w-6 h-6 mb-4"
                   alt="Quote icon"
                 />
+                <h3 className="text-[rgba(231,27,75,1)] text-2xl font-extrabold">
+                  {coaches[0].name}
+                </h3>
+                <p className="text-white text-base mt-2">
+                  {coaches[0].specialty}
+                </p>
+                <p className="text-white text-base mt-6 max-w-lg">
+                  {coaches[0].bio}
+                </p>
               </div>
             </div>
           </div>
-          <div className="w-[16%] ml-5 max-md:w-full max-md:ml-0">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/97569c8877d5102c9028cbf76efb56ce8864f198?placeholderIfAbsent=true"
-              className="aspect-[0.34] object-contain w-[196px] shrink-0 max-w-full grow max-md:mt-6"
-              alt="Coach thumbnail"
-            />
+        </AnimateOnScroll>
+
+        <AnimateOnScroll animation="slideInRight" delay={0.2} className="md:col-span-1">
+          <div className="grid grid-cols-1 gap-4 h-full">
+            {coaches.slice(1).map((coach, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.02 }}
+                className="relative rounded-md overflow-hidden h-[150px] md:h-[170px] shadow-md hover:shadow-lg transition-shadow"
+              >
+                <img
+                  src={coach.image}
+                  className="w-full h-full object-cover"
+                  alt={`Coach thumbnail`}
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="text-white text-center p-4">
+                    <h4 className="font-bold text-lg">{coach.name}</h4>
+                    <p className="text-sm mt-1">{coach.specialty}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-          <div className="w-[16%] ml-5 max-md:w-full max-md:ml-0">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/fea1831d3eb848d2853a0c0f6566ed8c/cfd359b80f13df4268180234baf96c491d003db9?placeholderIfAbsent=true"
-              className="aspect-[0.34] object-contain w-[196px] shrink-0 max-w-full grow max-md:mt-6"
-              alt="Coach thumbnail"
-            />
-          </div>
-        </div>
+        </AnimateOnScroll>
       </div>
     </section>
   );
