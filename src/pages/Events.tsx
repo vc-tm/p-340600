@@ -2,23 +2,33 @@
 import React from "react";
 import Header from "@/components/ui/Header";
 import { motion } from "framer-motion";
+import { Calendar } from "lucide-react";
 
-const EventCard = ({ title, date, image, description }: { title: string; date: string; image: string; description: string }) => (
+const EventCard = ({ title, date, description, location }: { title: string; date: string; description: string; location: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    className="bg-neutral-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform duration-300"
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5 }}
+    className="bg-[#1A1A1A] rounded-lg overflow-hidden"
   >
-    <img src={image} alt={title} className="w-full h-48 object-cover" />
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-white font-bold text-xl">{title}</h3>
-        <span className="text-[rgba(231,27,75,1)]">{date}</span>
+    <div className="p-6 flex flex-col md:flex-row items-center gap-6">
+      <div className="shrink-0 w-[120px] h-[120px] bg-[rgba(231,27,75,1)] rounded-lg flex flex-col items-center justify-center text-white">
+        <Calendar className="w-8 h-8 mb-2" />
+        <span className="text-2xl font-bold">{date}</span>
       </div>
-      <p className="text-gray-300 mb-4">{description}</p>
-      <button className="bg-[rgba(231,27,75,1)] text-white px-6 py-2 rounded hover:bg-[rgba(231,27,75,0.9)] transition-colors">
+      <div className="flex-1">
+        <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
+        <p className="text-gray-400 mb-2">{location}</p>
+        <p className="text-gray-300">{description}</p>
+      </div>
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="shrink-0 bg-[rgba(231,27,75,1)] text-white px-6 py-3 rounded hover:bg-[rgba(231,27,75,0.9)] transition-colors"
+      >
         Register Now
-      </button>
+      </motion.button>
     </div>
   </motion.div>
 );
@@ -26,102 +36,76 @@ const EventCard = ({ title, date, image, description }: { title: string; date: s
 const Events = () => {
   const upcomingEvents = [
     {
-      title: "STALLION CLASSIC",
-      date: "MAR 15",
-      image: "/path-to-image.jpg",
-      description: "Annual bodybuilding championship"
+      title: "STRENGTH SUMMIT 2025",
+      date: "APR 15",
+      location: "Dubai Sports Complex",
+      description: "Join us for the ultimate test of strength and endurance. International powerlifting champions will compete for glory."
     },
     {
-      title: "DEADLIFT WORKSHOP",
-      date: "MAR 22",
-      image: "/path-to-image.jpg",
-      description: "Learn proper form and technique"
+      title: "NUTRITION WORKSHOP",
+      date: "APR 22",
+      location: "Main Branch, Mumbai",
+      description: "Learn about performance nutrition from industry experts. Get personalized meal plans and supplement guidance."
     },
     {
-      title: "STRENGTH SUMMIT",
-      date: "APR 05",
-      image: "/path-to-image.jpg",
-      description: "International powerlifting meet"
+      title: "STRONGMAN CHALLENGE",
+      date: "MAY 05",
+      location: "Stallion Arena, Delhi",
+      description: "Watch India's strongest athletes battle it out in classic strongman events. Limited spots available."
+    },
+    {
+      title: "POWERLIFTING MEET",
+      date: "MAY 15",
+      location: "Elite Center, Bangalore",
+      description: "State-level powerlifting competition. All weight categories. IPF rules apply."
     }
   ];
 
   return (
     <div className="bg-black min-h-screen">
       <Header />
-      <div className="container mx-auto px-4 pt-32">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+      <div className="container mx-auto px-4 pt-32 pb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-5xl font-bold text-white mb-4"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
         >
-          BATTLEGROUNDS DON'T BUILD THEMSELVES
-        </motion.h1>
-        <motion.p
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            UPCOMING EVENTS
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Join us for exclusive workshops, competitions, and community events.
+            Register early to secure your spot.
+          </p>
+        </motion.div>
+
+        <div className="space-y-6 mb-16">
+          {upcomingEvents.map((event, index) => (
+            <EventCard key={index} {...event} />
+          ))}
+        </div>
+
+        <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-gray-300 mb-12"
+          className="text-center"
         >
-          Monthly competitions. Pro workshops. Community meetups.
-        </motion.p>
-
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">UPCOMING EVENTS</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {upcomingEvents.map((event, index) => (
-              <EventCard key={index} {...event} />
-            ))}
-          </div>
-        </section>
-
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">PAST EVENTS HIGHLIGHTS</h2>
-          <div className="grid grid-cols-1 gap-8">
-            <motion.img
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              src="/path-to-highlight-image.jpg"
-              alt="Past event highlight"
-              className="w-full rounded-lg"
-            />
-          </div>
-        </section>
-
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-white mb-8">WHY JOIN OUR EVENTS?</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "🏅",
-                title: "PROVE YOURSELF",
-                description: "Test your limits against the best"
-              },
-              {
-                icon: "💪",
-                title: "STRONGER COMMUNITY",
-                description: "Connect with like-minded athletes"
-              },
-              {
-                icon: "🧠",
-                title: "LEARN FROM PROS",
-                description: "Get insights from industry experts"
-              }
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + (index * 0.2) }}
-                className="text-center"
-              >
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-white font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-300">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+          <h2 className="text-3xl font-bold text-white mb-6">WANT TO HOST AN EVENT?</h2>
+          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Looking to organize a competition or workshop at one of our locations?
+            Get in touch with our events team.
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-[rgba(231,27,75,1)] text-white px-8 py-4 rounded inline-flex items-center gap-2 hover:bg-[rgba(231,27,75,0.9)] transition-colors"
+          >
+            Contact Events Team
+          </motion.button>
+        </motion.div>
       </div>
     </div>
   );
